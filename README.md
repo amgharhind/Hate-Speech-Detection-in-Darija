@@ -11,7 +11,7 @@ Detecting toxic language online is crucial for creating safer digital spaces. Th
 The project follows a structured methodology to optimize the model for the task:
 
 1.  **Darija-Specific Preprocessing:** A dedicated notebook (`hate-speech-detection-marbert-v2_preprocessing.ipynb`) handles the cleaning and preparation of Darija text data to make it suitable for the MARBERT model.
-2.  **MARBERT Fine-Tuning:** The project fine-tunes the MARBERTv2 model on the preprocessed hate speech dataset.
+2.  **MARBERT Fine-Tuning:** The project fine-tunes the `MARBERT` model on the preprocessed hate speech dataset.
 
 
 ## Technology 
