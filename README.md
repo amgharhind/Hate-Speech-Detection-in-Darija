@@ -36,30 +36,30 @@ The project follows a systematic pipeline to ensure the development of a robust 
 1.  **Data Loading and Exploration**: The training and testing datasets (`train.csv` and `test.csv`) are loaded and combined for a comprehensive analysis. Initial exploration includes examining the class distribution and the presence of emojis within the comments.
 2.  **Data Preprocessing**: The text data undergoes a series of crucial preprocessing steps to clean and normalize it for the MARBERT model. This ensures that the model receives consistent and relevant input, improving its ability to learn patterns. The preprocessing steps, as detailed in the project's presentation, include:
     *   **Punctuation Removal**: All punctuation marks are removed from the comments to reduce noise and focus on the textual content. 
-        *Example (from PPT)*: 
+        *Example*: 
         - Before: `لخوت رجع معاها لواجب الوطني#`
         - After: `لخوت رجع معاها لواجب الوطني`
     *   **Emoji Handling**: Emojis are extracted and then removed from the text. While emojis can convey sentiment, for this project, the focus is on the textual content for hate speech detection.
-        *Example (from PPT)*: 
+        *Example*: 
         - Before: `لي جا من عند بيمو اخبط لأباك 🦁🦁🦁`
         - After: `لي جا من عند بيمو اخبط لأباك`
     *   **Single Digit Removal**: Numerical digits are removed from the text, as they typically do not contribute to the sentiment or hate speech classification.
-        *Example (from PPT)*: 
+        *Example*: 
         - Before: `لأن فرنسا كونت 14 امرأة على العلمانية`
         - After: `لأن فرنسا كونت امرأة على العلمانية`
     *   **Latin Character Handling (Transcription/Translation)**: Words written in Latin script are detected and replaced by their transcription or translation into Arabic. This step is crucial for models like MARBERT, which are optimized for Arabic script, ensuring that the model focuses solely on Darija text and avoids misinterpretations from transliterated words.
-        *Example (from PPT)*: 
-        - Before: `ضربة مرضكة و مبغاوش Lherba`
-        - After: `لherba ضربة مرضكة و مبغاوش`
+        *Example*: 
+        - Before: ` Lherba`
+        - After: `لهربة `
     *   **Extra Space Suppression**: Multiple spaces are replaced with a single space to standardize the text formatting.
-        *Example (from PPT)*: 
-        - Before: `هذا  النص  يحتوي على  مسافات  غير ضرورية`
+        *Example*: 
+        - Before: `هذا  النص  يحتوي على  مسافات      غير ضرورية`
         - After: `هذا النص يحتوي على مسافات غير ضرورية`
     *   **Text Normalization (Character Repetition)**: This involves handling elongated words by reducing repeated characters to a maximum of three, preventing issues with exaggerated spellings.
-        *Example (from PPT - Case 1)*: 
+        *Example*: 
         - Before: `ياااااا سلام`
-        - After: `يااا سلام`
-        *Example (from PPT - Case 2)*: 
+        - After: `يا سلام`
+        *Example*: 
         - Before: `هههههههههه`
         - After: `ضحك`
 3.  **Data Splitting Strategy**: The dataset is initially provided with a pre-defined training and testing split (`train.csv` and `test.csv`). This split is maintained to ensure consistency with the original dataset's evaluation methodology. The notebook `hate-speech-detection-marbert-without-dense-lay.ipynb` further splits the training data into training (65%), validation (15%), and test (20%) sets using a stratified approach to preserve the distribution of labels.
@@ -75,7 +75,7 @@ The project follows a systematic pipeline to ensure the development of a robust 
         temp_data, test_size=20/(15+20), stratify=temp_data['off'], random_state=42
     )
     ```
-4.  **Model Selection and Fine-Tuning**: The pre-trained **MARBERTv2** model is chosen as the base model due to its strong performance on Arabic NLP tasks. The model is then fine-tuned on the preprocessed Darija hate speech dataset. The fine-tuning process adapts the general language understanding capabilities of MARBERT to the specific task of identifying hate speech in Darija. The model used is `AutoModelForSequenceClassification` from the `transformers` library, initialized with `UBC-NLP/MARBERT` and configured for binary classification (`num_labels=2`).
+4.  **Model Selection and Fine-Tuning**: The pre-trained **MARBERT** model is chosen as the base model due to its strong performance on Arabic NLP tasks. The model is then fine-tuned on the preprocessed Darija hate speech dataset. The fine-tuning process adapts the general language understanding capabilities of MARBERT to the specific task of identifying hate speech in Darija. The model used is `AutoModelForSequenceClassification` from the `transformers` library, initialized with `UBC-NLP/MARBERT` and configured for binary classification (`num_labels=2`).
 5.  **Model Training and Evaluation**: The fine-tuned model is trained on the training set and evaluated on the test set using various metrics such as accuracy, precision, recall, and F1-score.
 
 ## Project Structure and Files
@@ -114,9 +114,9 @@ As highlighted in the project presentation (`hate_speech_detection_darija.pptx`)
 
 *   **Dataset Size**: While the dataset is of a reasonable size, a larger and more diverse dataset could further improve the model's performance and generalization capabilities. A broader range of hate speech expressions and non-hate speech contexts would enhance the model's robustness.
 *   **Sarcasm and Irony**: The model may struggle with nuanced forms of hate speech, such as sarcasm and irony, which are challenging to detect even for humans. These linguistic complexities often require a deeper understanding of context and intent that current models may not fully capture.
-    *   **Example of Sarcasm (from PPT)**: A comment like `واو، شحال زوين هاد الكلام!` (Wow, how beautiful this speech is!) could be sarcastic hate speech if the context implies the opposite.
+    *   **Example of Sarcasm**: A comment like `الصوت ديالك متميز تباركاله دكشي لاش درتلك ديزلايك`   sarcastic hate speech .
 *   **Evolving Language**: Darija, like any living language, is constantly evolving. New slang, expressions, and ways of communicating hate speech emerge over time. The model may need to be periodically retrained to keep up with these linguistic shifts and maintain its effectiveness.
-    *   **Example of Evolving Slang (from PPT)**: A new derogatory term might emerge that the model, trained on older data, would not recognize as hate speech.
+    *   **Example of Evolving Slang **: A new derogatory term might emerge that the model, trained on older data, would not recognize as hate speech.
 
 **Future work** could involve:
 
